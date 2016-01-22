@@ -1,0 +1,57 @@
+
+
+{% extends "bootstrap/base.html" %}
+
+{% block metas %}
+{{super()}}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet"
+      href="{{url_for('static', filename='style.css')}}">
+{% endblock %}
+
+{% block title %}أمثال{% endblock %}
+
+{% block navbar %}
+<div class="blog-masthead">
+    <div class="container">
+        <nav class="blog-nav">
+            <a class="blog-nav-item active" href="#">Home</a>
+            <a class="blog-nav-item" href="#">New features</a>
+            <a class="blog-nav-item" href="#">Press</a>
+            <a class="blog-nav-item" href="#">New hires</a>
+            <a class="blog-nav-item" href="#">About</a>
+        </nav>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <div class="blog-header text-right">
+        <h1 class="blog-title">أمثال</h1>
+        <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-8 col-sm-push-4 blog-main">
+            {% for saying in sayings %}
+            <div class="blog-post text-right">
+                {# <h2 class="blog-post-title">Sample blog post</h2> #}
+                <p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
+                <p>{{ saying.text }}</p>
+            </div><!-- /.blog-post -->
+            {% endfor %}
+        </div><!-- /.blog-main -->
+    </div><!-- /.row -->
+</div><!-- /.container -->
+{% endblock %}
