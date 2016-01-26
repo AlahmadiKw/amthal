@@ -1,0 +1,4 @@
+
+{% macro set_active(id, active_page) -%}
+    {% if id == active_page %} class="active"{% endif %}
+{%- endmacro %}

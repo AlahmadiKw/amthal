@@ -1,57 +1,83 @@
 
 
 {% extends "bootstrap/base.html" %}
+{% from 'macros.html' import set_active %}
+
+
+{% set active_page = active_page|default('home') -%}
+
+{% if id == active_page %} class="active"{% endif %}
 
 {% block metas %}
-{{super()}}
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<meta name="description" content="">
+<meta name="author" content="">
 {% endblock %}
 
 {% block styles %}
 {{super()}}
-<link rel="stylesheet"
-      href="{{url_for('static', filename='style.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
 {% endblock %}
 
 {% block title %}أمثال{% endblock %}
 
+
 {% block navbar %}
-<div class="blog-masthead">
+<nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
-        <nav class="blog-nav">
-            <a class="blog-nav-item active" href="#">Home</a>
-            <a class="blog-nav-item" href="#">New features</a>
-            <a class="blog-nav-item" href="#">Press</a>
-            <a class="blog-nav-item" href="#">New hires</a>
-            <a class="blog-nav-item" href="#">About</a>
-        </nav>
+        <a class="navbar-brand navbar-right navbar-title" href="#">Project name</a>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav  navbar-right">
+            <li {{ set_active('home', active_page) }}><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li {{ set_active('about', active_page) }}><a href="#about">About</a></li>
+            <li {{ set_active('contact', active_page) }}><a href="#contact">Contact</a></l #}i>
+        </ul>
+         <ul class="nav navbar-nav navbar-left">
+            {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+            {% else %}
+            <li {{ set_active('login', active_page) }}><a href="{{ url_for('auth.login') }}">Log In</a></li>
+            {% endif %}
+         </ul>
+        </div><!--/.nav-collapse -->
     </div>
-</div>
+</nav>
 {% endblock %}
 
 {% block content %}
-<div class="container">
+<div class="container text-right">
 
-    <div class="blog-header text-right">
-        <h1 class="blog-title">أمثال</h1>
-        <p class="lead blog-description">The official example template of creating a blog with Bootstrap.</p>
+<div class="row">
+    <div class="col-sm-8 col-sm-push-2 sayings">
+
+    {% for message in get_flashed_messages() %}
+
+    <div class="alert {% if category %}{{ category }}{% else %}alert-warning{% endif %}" role='alert'>
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
     </div>
+    {% endfor %}
 
-    <div class="row">
-        <div class="col-sm-8 col-sm-push-4 blog-main">
-            {% for saying in sayings %}
-            <div class="blog-post text-right">
-                {# <h2 class="blog-post-title">Sample blog post</h2> #}
-                <p class="blog-post-meta">January 1, 2014 by <a href="#">Mark</a></p>
-                <p>{{ saying.text }}</p>
-            </div><!-- /.blog-post -->
-            {% endfor %}
-        </div><!-- /.blog-main -->
-    </div><!-- /.row -->
+    </div><!-- /.sayings -->
+</div><!-- /.row -->
+
+{% block page_content %}{% endblock %}
+
 </div><!-- /.container -->
 {% endblock %}
+
+
+
+
+

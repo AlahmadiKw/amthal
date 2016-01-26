@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+
+{% block page_content %}
+
+<div class="row">
+
+    <div class="col-sm-8 col-sm-push-2 sayings">
+
+        {% for saying in sayings %}
+        <div class="saying-entry">
+            <p class="saying-meta">January 1, 2014 by <a href="#">Mark</a></p>
+            <p class="lead saying-text">
+                {{ saying.text }}
+            </p>
+        </div><!-- /.saying-entry -->
+        {% endfor %}
+
+    </div><!-- /.sayings -->
+
+</div><!-- /.row -->
+{% endblock %}
