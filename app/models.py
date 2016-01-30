@@ -12,6 +12,11 @@ class User(UserMixin):
         return self.username
 
     @staticmethod
+    def get_user(username):
+        user = mongo.db.users.find_one({'_id': username})
+        return user if user else None
+
+    @staticmethod
     def validate_login(password_hash, password):
         return check_password_hash(password_hash, password)
 

@@ -10,7 +10,7 @@ from ..models import User
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user_doc = mongo.db.users.find_one({'_id': form.username.data})
+        user_doc = User.get_user(form.username.data)
         if user_doc and \
            User.validate_login(user_doc['password_hash'], form.password.data):
             user_obj = User(user_doc['_id'])

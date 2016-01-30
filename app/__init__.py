@@ -8,7 +8,7 @@ from config import config
 
 bootstrap = Bootstrap()
 mongo = PyMongo()
-# mail = Mail()
+mail = Mail()
 moment = Moment()
 
 login_manager = LoginManager()
@@ -24,7 +24,7 @@ def create_app(config_name):
 
     bootstrap.init_app(app)
     mongo.init_app(app)
-    # mail.init_app(app)
+    mail.init_app(app)
     moment.init_app(app)
     login_manager.init_app(app)
 
