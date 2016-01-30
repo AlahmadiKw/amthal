@@ -17,6 +17,16 @@ class User(UserMixin):
         return user if user else None
 
     @staticmethod
+    def add_user(username, email, password):
+        mongo.db.users.insert_one({'_id': username, 'email': email,
+                             'password_hash': generate_password_hash(password)})
+
+    @staticmethod
+    def email_exists(email):
+        user = mongo.db.users.find_one({'email': email})
+        return True if user else False
+
+    @staticmethod
     def validate_login(password_hash, password):
         return check_password_hash(password_hash, password)
 

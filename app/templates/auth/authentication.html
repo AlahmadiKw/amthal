@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% set active_page = "login" %}
+
+{% block title %}Authentication{% endblock %}
+
+{% block page_content %}
+
+<div class="col-md-push-4 col-md-8">
+    <div class="row">
+        <div class="col-md-push-6 col-md-6">
+            <div class="page-header">
+                <h1>Login</h1>
+            </div>
+            {{ wtf.quick_form(login_form, action=url_for("auth.login")) }}
+        </div>
+
+        <div class="col-md-pull-6 col-md-6">
+            <div class="page-header">
+                <h1>Register</h1>
+            </div>
+            {{ wtf.quick_form(register_form, action=url_for("auth.register")) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
