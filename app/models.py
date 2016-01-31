@@ -13,6 +13,7 @@ class User(UserMixin):
     def get_id(self):
         return self.username
 
+    @property
     def confirmed(self):
         doc = mongo.db.users.find_one({'_id': self.username},
                                       {'_id':0, 'confirmed': 1})
@@ -20,11 +21,6 @@ class User(UserMixin):
             return doc['confirmed']
         except KeyError, e:
             return False
-
-    def generate_confirmation_token(self, expiration=3600):
-        print self.username
-        s = Serializer(current_app.config['SECRET_KEY'], expiration)
-        return s.dumps({'confirm': self.username})
 
     @property
     def email(self):
@@ -53,6 +49,11 @@ class User(UserMixin):
     @staticmethod
     def validate_login(password_hash, password):
         return check_password_hash(password_hash, password)
+
+    @staticmethod
+    def generate_confirmation_token(username=None, expiration=3600):
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+        return s.dumps({'confirm': username})
 
     @staticmethod
     def confirm(username, token):
