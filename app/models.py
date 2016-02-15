@@ -4,6 +4,19 @@ from flask.ext.login import UserMixin
 from flask import current_app
 from . import mongo, login_manager
 
+class Permission:
+    FOLLOW = 0x01
+    POST = 0x02
+    MODERATE = 0x04
+    ADMINISTER = 0x08
+
+class Role:
+    USER = Permission.FOLLOW |\
+           Permission.POST
+    MODERATOR = Permission.FOLLOW |\
+                Permission.POST |\
+                Permission.MODERATE
+    ADMINISTRATOR = 0xff
 
 class User(UserMixin):
 
@@ -12,6 +25,27 @@ class User(UserMixin):
 
     def get_id(self):
         return self.username
+
+    def can(self, permissions):
+        return self.role is not None and \
+               (self.role & permissions) == permissions
+
+    def is_administrator(self):
+        return self.can(Permission.ADMINISTER)
+
+    @property
+    def role(self):
+        doc = mongo.db.users.find_one({'_id': self.username},
+                                      {'_id':0, 'role': 1})
+        try:
+            return doc['role']
+        except KeyError, e:
+            return None
+
+    @role.setter
+    def role(self, role):
+        mongo.db.users.update_one({'_id': self.username},
+                                  {'$set': { 'role': role}})
 
     @property
     def confirmed(self):
@@ -37,9 +71,10 @@ class User(UserMixin):
         return user if user else None
 
     @staticmethod
-    def add_user(username, email, password):
+    def add_user(username, email, password, role):
         mongo.db.users.insert_one({'_id': username, 'email': email,
-                             'password_hash': generate_password_hash(password)})
+                             'password_hash': generate_password_hash(password),
+                             'role': role})
 
     @staticmethod
     def email_exists(email):
@@ -68,6 +103,14 @@ class User(UserMixin):
                                   {'$set': { 'confirmed': True}})
         return True
 
+
+class AnonymousUser(AnonymousUserMixin):
+    def can(self, permissions):
+        return False
+    def is_administrator(self):
+        return False
+
+login_manager.anonymous_user = AnonymousUser
 
 @login_manager.user_loader
 def load_user(username):

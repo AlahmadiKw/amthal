@@ -6,7 +6,7 @@ from . import auth
 from .forms import LoginForm, RegistrationForm
 from ..email import send_email
 from .. import mongo, login_manager
-from ..models import User
+from ..models import User, Role
 
 
 @auth.before_app_request
@@ -48,7 +48,8 @@ def register():
     if register_form.validate_on_submit():
         User.add_user(email=register_form.email.data,
                       username=register_form.username.data,
-                      password=register_form.password.data)
+                      password=register_form.password.data,
+                      role=Role.USER)
         token = User.generate_confirmation_token(register_form.username.data)
         send_email(register_form.email.data, 'Confirm Your Account',
                    'auth/email/confirm', username=register_form.username.data,
@@ -79,7 +80,7 @@ def logout():
 def confirm(token):
     if current_user.confirmed:
         return redirect(url_for('main.index'))
-    if current_user.confirm(token):
+    if current_user.confirm(current_user.get_id(), token):
         flash('You have confirmed your account. Thanks!', category='alert-success')
     else:
         flash('The confirmation link is invalid or has expired.', category='alert-danger')
