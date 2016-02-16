@@ -1,5 +1,7 @@
 # custom
 desc.txt
+.fab_tasks~
+fabfile.py
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

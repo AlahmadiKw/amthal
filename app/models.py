@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask.ext.login import UserMixin, AnonymousUserMixin
@@ -104,6 +106,19 @@ class User(UserMixin):
         return True
 
 
+class Saying(object):
+
+    @staticmethod
+    def add_saying(text, added_by, origin='', tags=[]):
+        doc = { 'text' : text,
+                'added_by': added_by,
+                'date_created': datetime.utcnow(),
+                'origin': origin, 
+                'tags': tags,
+                'approved': False}
+
+
+
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
         return False
@@ -118,3 +133,4 @@ def load_user(username):
     if not u:
         return None
     return User(u['_id'])
+
