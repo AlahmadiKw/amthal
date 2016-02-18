@@ -61,5 +61,110 @@ db.countries.insert(
            {'language': 'english', 'name': 'Yemen'},
            {'language': 'arabic',  'name': 'اليمن'}
        ]
+     },
+     { 
+       '_id': 'SY', 
+       'country': [
+           {'language': 'english', 'name': 'Syria'},
+           {'language': 'arabic',  'name': 'سوريا'}
+       ]
+     },
+     { 
+       '_id': 'TN', 
+       'country': [
+           {'language': 'english', 'name': 'Tunisia'},
+           {'language': 'arabic',  'name': 'تونس‎'}
+       ]
+     },
+     { 
+       '_id': 'SO', 
+       'country': [
+           {'language': 'english', 'name': 'Somalia'},
+           {'language': 'arabic',  'name': 'الصومال'}
+       ]
+     },
+     { 
+       '_id': 'JO', 
+       'country': [
+           {'language': 'english', 'name': 'Jordan'},
+           {'language': 'arabic',  'name': 'الأردن'}
+       ]
+     },
+     { 
+       '_id': 'AE', 
+       'country': [
+           {'language': 'english', 'name': 'United Arab Emirates'},
+           {'language': 'arabic',  'name': 'الإمارات العربية المتحدة'}
+       ]
+     },
+     { 
+       '_id': 'LY', 
+       'country': [
+           {'language': 'english', 'name': 'Libya'},
+           {'language': 'arabic',  'name': 'ليبيا'}
+       ]
+     },
+     { 
+       '_id': 'PS', 
+       'country': [
+           {'language': 'english', 'name': 'Palestine'},
+           {'language': 'arabic',  'name': 'فلسطين'}
+       ]
+     },
+     { 
+       '_id': 'LB', 
+       'country': [
+           {'language': 'english', 'name': 'Lebanon'},
+           {'language': 'arabic',  'name': 'لبنان'}
+       ]
+     },
+     { 
+       '_id': 'OM', 
+       'country': [
+           {'language': 'english', 'name': 'Oman'},
+           {'language': 'arabic',  'name': 'عمان'}
+       ]
+     },
+     { 
+       '_id': 'KW', 
+       'country': [
+           {'language': 'english', 'name': 'Kuwait'},
+           {'language': 'arabic',  'name': 'الكويت'}
+       ]
+     },
+     { 
+       '_id': 'MR', 
+       'country': [
+           {'language': 'english', 'name': 'Mauritania'},
+           {'language': 'arabic',  'name': 'موريتانيا'}
+       ]
+     },
+     { 
+       '_id': 'QA', 
+       'country': [
+           {'language': 'english', 'name': 'Qatar'},
+           {'language': 'arabic',  'name': 'قطر'}
+       ]
+     },
+     { 
+       '_id': 'BH', 
+       'country': [
+           {'language': 'english', 'name': 'Bahrain'},
+           {'language': 'arabic',  'name': 'البحرين'}
+       ]
+     },
+     { 
+       '_id': 'DJ', 
+       'country': [
+           {'language': 'english', 'name': 'Djibouti'},
+           {'language': 'arabic',  'name': 'جيبوتي'}
+       ]
+     },
+     { 
+       '_id': 'KM', 
+       'country': [
+           {'language': 'english', 'name': 'Comoros'},
+           {'language': 'arabic',  'name': 'جزر القمر'}
+       ]
      }
     ])
