@@ -4,10 +4,15 @@ from flask import render_template, flash
 from flask.ext.login import login_user, logout_user, login_required, \
     current_user
 
+from flask.ext.wtf import Form
+from wtforms import StringField, BooleanField, SubmitField, SelectMultipleField
+from wtforms.validators import Required, Length, Email, Regexp, EqualTo
+from wtforms import ValidationError
+
 from . import main
 from .. import mongo
-from .forms import SayingForm
-from ..models import Permission
+# from .forms import SayingForm
+from ..models import Permission, Saying
 from ..decorators import permission_required
 
 
@@ -21,6 +26,14 @@ def index():
 @login_required
 @permission_required(Permission.POST)
 def post_saying():
+
+	class SayingForm(Form):
+	    text = StringField('Saying', validators=[Length(20, 140)])
+	    origins = SelectMultipleField('Origins', choices=Saying.get_country_names('english'))
+	    # origins = SelectMultipleField('Origins', choices=Saying.get_tags())
+	    tags = SelectMultipleField('Tags', choices=Saying.get_tags())
+	    submit = SubmitField('Post Saying')
+
 	form = SayingForm()
 	if form.validate_on_submit():
 		text = form.text.data

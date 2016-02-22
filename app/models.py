@@ -132,7 +132,7 @@ class Saying(object):
                           { '$match' : { 'country.language': language } },
                           { '$group' : { '_id' : '$country.name'} }
                           ]))
-        return [x['_id'] for x in countries]
+        return [(x['_id'], x['_id']) for x in countries]
 
     @staticmethod
     def get_tags():
