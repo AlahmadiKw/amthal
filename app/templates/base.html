@@ -6,8 +6,6 @@
 
 {% set active_page = active_page|default('home') -%}
 
-{% if id == active_page %} class="active"{% endif %}
-
 {% block metas %}
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -46,6 +44,7 @@
          <ul class="nav navbar-nav navbar-left">
             {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+            <li><a href="{{ url_for('main.post_saying') }}">Post Saying</a></li>
             {% else %}
             <li {{ set_active('login', active_page) }}><a href="{{ url_for('auth.authentication') }}">Log In</a></li>
             {% endif %}

@@ -5,6 +5,10 @@ from flask.ext.mail import Mail
 from flask.ext.moment import Moment
 from flask.ext.login import LoginManager
 from config import config
+import sys
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 bootstrap = Bootstrap()
 mongo = PyMongo()

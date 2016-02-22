@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% set active_page = "" %}
+
+{% block title %}Port Saying{% endblock %}
+
+{% block page_content %}
+
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+            <h1>New Saying</h1>
+        </div>
+        {{ wtf.quick_form(form) }}
+    </div>
+</div>
+
+{% endblock %}

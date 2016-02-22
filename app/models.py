@@ -1,8 +1,11 @@
+# -*- coding: UTF-8 -*-
+
 from datetime import datetime
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask.ext.login import UserMixin, AnonymousUserMixin
+
 from flask import current_app
 from . import mongo, login_manager
 
@@ -30,7 +33,7 @@ class User(UserMixin):
 
     def can(self, permissions):
         return self.role is not None and \
-               (self.role & permissions) == permissions
+               (int(self.role) & permissions) == permissions
 
     def is_administrator(self):
         return self.can(Permission.ADMINISTER)
@@ -108,16 +111,32 @@ class User(UserMixin):
 
 class Saying(object):
 
+    tags = [('funny', 'مضحك'),
+            ('adult', '18+'),
+            ]
+
     @staticmethod
-    def add_saying(text, added_by, origin='', tags=[]):
+    def add_saying(text, added_by, origins=[], tags=[]):
         doc = { 'text' : text,
                 'added_by': added_by,
                 'date_created': datetime.utcnow(),
-                'origin': origin, 
+                'origins': origins, 
                 'tags': tags,
                 'approved': False}
+        mongo.db.sayings.insert_one(doc)
 
+    @staticmethod
+    def get_country_names(language='english'):
+        countries = list(mongo.db.countries.aggregate([ 
+                          { '$unwind' : '$country' },
+                          { '$match' : { 'country.language': language } },
+                          { '$group' : { '_id' : '$country.name'} }
+                          ]))
+        return [x['_id'] for x in countries]
 
+    @staticmethod
+    def get_tags():
+        return Saying.tags
 
 class AnonymousUser(AnonymousUserMixin):
     def can(self, permissions):
